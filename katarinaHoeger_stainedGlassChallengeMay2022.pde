@@ -56,12 +56,18 @@ float highlightLevel; // amount to highlight : -1.0 - 1.0
 
 String[] paletteString ; // list of colors in palette, in string form
 float [][] palette;      // stores palette rgb
-int paletteSize;         // # of items in palette
+int paletteSize;         // # of items in palette  // choose curent color
+int colorChosen ;        // current color variable
+float r, g, b;           // color components
 
-float r, g, b;
+Tile[] tileListVertical, tileListHorizontal;      // set of Vertical & Horizontal Tiles
+int totalTiles = 10000 ;                          // # of tiles to generate
 
-Tile[] tileListVertical, tileListHorizontal;
-int totalTiles = 10000 ;
+// tile values
+float low ;              // smallest tile w/h
+float high ;             // largest tile w/h
+float xRect, yRect;      // tile placement
+float middleBorder;
 
 void setup() {
   // -- Canvas Setup
@@ -80,7 +86,10 @@ void setup() {
   blendLevel = 0.2;       // amount of blend: 0.0 - 1.
   highlightLevel = 1.0;   // amount to highlight : -1.0 - 1.0
   paletteSize = 10 ;
-
+  low = 5;                // smallest tile size
+  high = 20;              // largest tile size
+  middleBorder = 100;
+             
 
   // -- Image
   // Load
@@ -114,13 +123,13 @@ void setup() {
 
   for (  int colorSeen = 0; 
     colorSeen < highlight.width * highlight.height; 
-    colorSeen ++) {          // loop through pixels, add colors to dictionary 
+    colorSeen ++) {                                 // loop through pixels, add colors to dictionary 
 
     r = red(highlight.pixels[colorSeen]);
     g = green(highlight.pixels[colorSeen]);
     b = blue(highlight.pixels[colorSeen]);
 
-    String thisKey = str(r)+"_"+str(g)+"_"+str(b); // rgb color is key
+    String thisKey = str(r)+"_"+str(g)+"_"+str(b); // r_g_b color is string key
 
 
     if (colorList.hasKey(thisKey) == true) {      // increment key if exist / (color count increases)
@@ -129,7 +138,7 @@ void setup() {
       colorList.set(thisKey, 1);
     }
   }
-  colorList.sortValuesReverse();                  // colors sorted in Descending order of frequency
+  colorList.sortValuesReverse();                                 // colors sorted in Descending order of frequency
 
   // space for list of palette strings
   if ( colorList.keyArray().length < paletteSize ) {   
@@ -152,19 +161,13 @@ void setup() {
     palette[paletteColorIndex][2] = float( int ( splitTokens(paletteString[paletteColorIndex], "_")[2]) ) ;
   }
 
-  // choose curent color
-  int colorChosen ;
-
-  // generate tiles
-  tileListVertical = new Tile [totalTiles/2];
+  // space for new tiles
+  tileListVertical = new Tile [totalTiles/2];          
   tileListHorizontal = new Tile [totalTiles/2];
 
-  // tile values
-  float low = 5;
-  float high = 20;
-  float xRect, yRect;
+  // Create tiles
   for ( int tilesGenerated = 0; tilesGenerated < totalTiles/2; tilesGenerated ++) {
-    
+    // Vertically placed tiles
     // current color
     colorChosen = int(random (palette.length));  
 
@@ -180,7 +183,7 @@ void setup() {
       palette[colorChosen][0], palette[colorChosen][1], palette[colorChosen][2], 
       low, high);
 
-
+     // horizontally placed tiles
     // allowedY  - outside of central image box 
     colorChosen = int(random (palette.length));  
     if (random(1) < 0.5) {
@@ -257,8 +260,8 @@ class Tile {
     x += random(-delta, delta);
     y += random(-delta, delta);
 
-    boolean overLeftEdgeOfMiddle = x > (width - highlight.width)/2;
-    boolean overRightEdgeOfMiddle = x < width-(width - highlight.width)/2;
+    boolean overLeftEdgeOfMiddle = x > (width - highlight.width)/2 + middleBorder;
+    boolean overRightEdgeOfMiddle = x < width-(width - highlight.width)/2 - middleBorder;
 
     // crossed from L or R into middle
     if ( overLeftEdgeOfMiddle && overRightEdgeOfMiddle) {
@@ -274,8 +277,8 @@ class Tile {
     x += random(-delta, delta);
     y += random(-delta, delta);
 
-    boolean overTopEdgeOfMiddle = y > (height - highlight.height)/2;
-    boolean overBottomEdgeOfMiddle = y < height-(height - highlight.height)/2;
+    boolean overTopEdgeOfMiddle = y > (height - highlight.height)/2 + middleBorder;
+    boolean overBottomEdgeOfMiddle = y < height-(height - highlight.height)/2 - middleBorder;
 
     // crossed from T or B into middle
     if ( overTopEdgeOfMiddle && overBottomEdgeOfMiddle) {
