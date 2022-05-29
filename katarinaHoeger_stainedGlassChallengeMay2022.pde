@@ -17,6 +17,7 @@
  Voronoi: 
  http://leebyron.com/mesh/#:~:text=Voronoi%20Diagrams%20show%20the%20regions%20of%20space%20closest,is%20particulary%20useful%20for%20optimization%20in%20game%20design.
  
+ Image from here: https://leceneridipinocchio.blogspot.com/2015/01/il-tango.html
  
  */
 
