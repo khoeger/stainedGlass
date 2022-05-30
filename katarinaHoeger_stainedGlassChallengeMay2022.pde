@@ -69,6 +69,9 @@ float high ;             // largest tile w/h
 float xRect, yRect;      // tile placement
 float middleBorder;
 
+// FRAME
+PShape frame1, frame2, frame3, frame4 ;
+
 void setup() {
   // -- Canvas Setup
   size(731, 1000); // !!! ALTER FOR NEW IMAGES!!! - canvas size chosen based off of image dimensions  
@@ -88,8 +91,8 @@ void setup() {
   paletteSize = 10 ;
   low = 5;                // smallest tile size
   high = 20;              // largest tile size
-  middleBorder = 100;
-             
+  middleBorder = 25;
+
 
   // -- Image
   // Load
@@ -179,11 +182,11 @@ void setup() {
       xRect = random(width - (width - highlight.width)/2, width);
       yRect = random(0, height);
     }
-    tileListVertical[tilesGenerated] = new Tile(xRect, yRect,                      // add tile
+    tileListVertical[tilesGenerated] = new Tile(xRect, yRect, // add tile
       palette[colorChosen][0], palette[colorChosen][1], palette[colorChosen][2], 
       low, high);
 
-     // horizontally placed tiles
+    // horizontally placed tiles
     // allowedY  - outside of central image box 
     colorChosen = int(random (palette.length));  
     if (random(1) < 0.5) {
@@ -193,10 +196,97 @@ void setup() {
       yRect = random(height - (height - highlight.height)/2, height);
       xRect = random(0, width);
     }
-    tileListHorizontal[tilesGenerated] = new Tile(xRect, yRect,                    // add tile
+    tileListHorizontal[tilesGenerated] = new Tile(xRect, yRect, // add tile
       palette[colorChosen][0], palette[colorChosen][1], palette[colorChosen][2], 
       low, high);
   }
+
+  // -- FRAME
+  float outerXLeft = 0;
+  float outerXRight = width;
+  float outerYTop = 150;
+  float outerYBottom = height;
+  float innerXLeft = (width - highlight.width)/4;
+  float innerXRight = width - (width - highlight.width)/4;
+  float innerYTop = (height - highlight.height)/4;
+  float innerYBottom = height - (height - highlight.height)/4;
+
+  frame1 = createShape();
+  frame1.beginShape();
+  frame1.stroke(0);
+  frame1.strokeWeight(max((width - highlight.width)/2,(height - highlight.height)/2 ));
+  frame1.noFill();
+  frame1.beginShape();
+  frame1.vertex(outerXLeft, outerYTop);
+  frame1.vertex(outerXLeft + (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame1.vertex(outerXLeft + (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame1.vertex(outerXLeft + (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame1.vertex(width/2,  outerYTop - (height - highlight.height)/2 );
+  frame1.vertex(outerXRight - (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame1.vertex(outerXRight - (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame1.vertex(outerXRight - (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame1.vertex(outerXRight, outerYTop);
+  frame1.vertex(outerXRight, outerYBottom);
+  frame1.vertex(outerXLeft, outerYBottom);
+  frame1.endShape(CLOSE);
+  
+  frame2 = createShape();
+  frame2.beginShape();
+  frame2.stroke(edgeColor);
+  frame2.strokeWeight(max((width - highlight.width)/2,(height - highlight.height)/2 )-100);
+  frame2.noFill();
+  frame2.beginShape();
+  frame2.vertex(outerXLeft, outerYTop);
+  frame2.vertex(outerXLeft + (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame2.vertex(outerXLeft + (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame2.vertex(outerXLeft + (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame2.vertex(width/2,  outerYTop - (height - highlight.height)/2 );
+  frame2.vertex(outerXRight - (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame2.vertex(outerXRight - (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame2.vertex(outerXRight - (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame2.vertex(outerXRight, outerYTop);
+  frame2.vertex(outerXRight, outerYBottom);
+  frame2.vertex(outerXLeft, outerYBottom);
+  frame2.endShape(CLOSE);
+  
+  frame3 = createShape();
+  frame3.beginShape();
+  frame3.stroke(0);
+  frame3.strokeWeight(max((width - highlight.width)/2,(height - highlight.height)/2 )-150);
+  frame3.noFill();
+  frame3.beginShape();
+  frame3.vertex(outerXLeft, outerYTop);
+  frame3.vertex(outerXLeft + (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame3.vertex(outerXLeft + (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame3.vertex(outerXLeft + (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame3.vertex(width/2,  outerYTop - (height - highlight.height)/2 );
+  frame3.vertex(outerXRight - (width - highlight.width)/3 , outerYTop - (height - highlight.height)/3 );
+  frame3.vertex(outerXRight - (width - highlight.width)/4 , outerYTop - (height - highlight.height)/4 );
+  frame3.vertex(outerXRight - (width - highlight.width)/5 , outerYTop - (height - highlight.height)/5 );
+  frame3.vertex(outerXRight, outerYTop);
+  frame3.vertex(outerXRight, outerYBottom);
+  frame3.vertex(outerXLeft, outerYBottom);
+  frame3.endShape(CLOSE);
+  
+  //int topOffset = 100;
+  //frame4 = createShape();
+  //frame4.beginShape();
+  //frame4.stroke(0);
+  //frame4.strokeWeight(25);
+  //frame4.noFill();
+  //frame4.beginShape();
+  //frame4.vertex(innerXLeft, topOffset + innerYTop);
+  //frame4.vertex(innerXLeft + (width - highlight.width)/5 , topOffset + innerYTop - (height - highlight.height)/5 );
+  //frame4.vertex(innerXLeft + (width - highlight.width)/4 , topOffset + innerYTop - (height - highlight.height)/4 );
+  //frame4.vertex(innerXLeft + (width - highlight.width)/3 , topOffset + innerYTop - (height - highlight.height)/3 );
+  //frame4.vertex(width/2,  topOffset + innerYTop - (height - highlight.height)/2 );
+  //frame4.vertex(innerXRight - (width - highlight.width)/3 , topOffset + innerYTop - (height - highlight.height)/3 );
+  //frame4.vertex(innerXRight - (width - highlight.width)/4 , topOffset + innerYTop - (height - highlight.height)/4 );
+  //frame4.vertex(innerXRight - (width - highlight.width)/5 , topOffset + innerYTop - (height - highlight.height)/5 );
+  //frame4.vertex(innerXRight, topOffset + innerYTop);
+  //frame4.vertex(innerXRight, innerYBottom);
+  //frame4.vertex(innerXLeft, innerYBottom);
+  //frame4.endShape(CLOSE);
 }
 
 void draw() {
@@ -228,6 +318,52 @@ void draw() {
     tileShown.display();
     tileShown.moveVertical();
   }
+
+
+
+  //// Frame - base
+  ////stroke(50, 20, 5, 255);
+  //stroke(0);
+  //strokeWeight((width - highlight.width)/2 );
+  //// top
+  //line( 0, 0, width, 0);
+  //// bottom
+  //line( 0, height, width, height);
+  //// left
+  //line( 0, 0, 0, height);
+  //// left
+  //line( 0, 0, 0, height);
+  //// right
+  //line( width, 0, width, height);
+
+
+  ////color layer
+  //int lineWidth = (width - highlight.width)/2;
+  //int lineWidthDelta = 5;
+  //for ( int alpha = 0; alpha < min((width - highlight.width)/2, 20); alpha ++) {
+  //  //stroke(150, 100, 0, alpha);
+  //  stroke(255, 255, 255, alpha);
+  //  strokeWeight(lineWidth);
+  //  lineWidth -= lineWidthDelta;
+  //  // top
+  //  line( 0, 0, width, 0);
+  //  // bottom
+  //  line( 0, height, width, height);
+  //  // left
+  //  line( 0, 0, 0, height);
+  //  // left
+  //  line( 0, 0, 0, height);
+  //  // right
+  //  line( width, 0, width, height);
+  //}
+
+
+  shape(frame1);
+  shape(frame2);
+  shape(frame3);
+  //shape(frame4);
+
+
 }
 
 
@@ -291,6 +427,6 @@ class Tile {
   }
 }
 
-void mousePressed(){
+void mousePressed() {
   saveFrame("stainedGlassChallenge.jpg");
 }
