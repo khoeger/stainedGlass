@@ -32,7 +32,7 @@ import milchreis.imageprocessing.utils.*;
 // points
 float[][] points;      // list of all points
 int numVoronoiPoints;  // total # of points created
-float pointDelta = 0.01;
+float pointDelta;
 // edges
 color edgeColor;
 // -- Palette Generation & Use
