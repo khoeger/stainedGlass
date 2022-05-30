@@ -70,7 +70,7 @@ float xRect, yRect;      // tile placement
 float middleBorder;
 
 // FRAME
-PShape frame1, frame2, frame3, frame4 ;
+PShape frame1, frame2, frame3 ;
 
 void setup() {
   // -- Canvas Setup
@@ -206,10 +206,6 @@ void setup() {
   float outerXRight = width;
   float outerYTop = 150;
   float outerYBottom = height;
-  float innerXLeft = (width - highlight.width)/4;
-  float innerXRight = width - (width - highlight.width)/4;
-  float innerYTop = (height - highlight.height)/4;
-  float innerYBottom = height - (height - highlight.height)/4;
 
   frame1 = createShape();
   frame1.beginShape();
@@ -268,25 +264,7 @@ void setup() {
   frame3.vertex(outerXLeft, outerYBottom);
   frame3.endShape(CLOSE);
   
-  //int topOffset = 100;
-  //frame4 = createShape();
-  //frame4.beginShape();
-  //frame4.stroke(0);
-  //frame4.strokeWeight(25);
-  //frame4.noFill();
-  //frame4.beginShape();
-  //frame4.vertex(innerXLeft, topOffset + innerYTop);
-  //frame4.vertex(innerXLeft + (width - highlight.width)/5 , topOffset + innerYTop - (height - highlight.height)/5 );
-  //frame4.vertex(innerXLeft + (width - highlight.width)/4 , topOffset + innerYTop - (height - highlight.height)/4 );
-  //frame4.vertex(innerXLeft + (width - highlight.width)/3 , topOffset + innerYTop - (height - highlight.height)/3 );
-  //frame4.vertex(width/2,  topOffset + innerYTop - (height - highlight.height)/2 );
-  //frame4.vertex(innerXRight - (width - highlight.width)/3 , topOffset + innerYTop - (height - highlight.height)/3 );
-  //frame4.vertex(innerXRight - (width - highlight.width)/4 , topOffset + innerYTop - (height - highlight.height)/4 );
-  //frame4.vertex(innerXRight - (width - highlight.width)/5 , topOffset + innerYTop - (height - highlight.height)/5 );
-  //frame4.vertex(innerXRight, topOffset + innerYTop);
-  //frame4.vertex(innerXRight, innerYBottom);
-  //frame4.vertex(innerXLeft, innerYBottom);
-  //frame4.endShape(CLOSE);
+
 }
 
 void draw() {
@@ -321,47 +299,9 @@ void draw() {
 
 
 
-  //// Frame - base
-  ////stroke(50, 20, 5, 255);
-  //stroke(0);
-  //strokeWeight((width - highlight.width)/2 );
-  //// top
-  //line( 0, 0, width, 0);
-  //// bottom
-  //line( 0, height, width, height);
-  //// left
-  //line( 0, 0, 0, height);
-  //// left
-  //line( 0, 0, 0, height);
-  //// right
-  //line( width, 0, width, height);
-
-
-  ////color layer
-  //int lineWidth = (width - highlight.width)/2;
-  //int lineWidthDelta = 5;
-  //for ( int alpha = 0; alpha < min((width - highlight.width)/2, 20); alpha ++) {
-  //  //stroke(150, 100, 0, alpha);
-  //  stroke(255, 255, 255, alpha);
-  //  strokeWeight(lineWidth);
-  //  lineWidth -= lineWidthDelta;
-  //  // top
-  //  line( 0, 0, width, 0);
-  //  // bottom
-  //  line( 0, height, width, height);
-  //  // left
-  //  line( 0, 0, 0, height);
-  //  // left
-  //  line( 0, 0, 0, height);
-  //  // right
-  //  line( width, 0, width, height);
-  //}
-
-
   shape(frame1);
   shape(frame2);
   shape(frame3);
-  //shape(frame4);
 
 
 }
