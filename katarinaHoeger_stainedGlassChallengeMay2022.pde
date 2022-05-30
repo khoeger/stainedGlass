@@ -33,6 +33,7 @@ import milchreis.imageprocessing.utils.*;
 // points
 float[][] points;      // list of all points
 int numVoronoiPoints;  // total # of points created
+float pointDelta = 0.01;
 // edges
 color edgeColor;
 // -- Palette Generation & Use
@@ -68,6 +69,8 @@ float low ;              // smallest tile w/h
 float high ;             // largest tile w/h
 float xRect, yRect;      // tile placement
 float middleBorder;
+float tileSWeight;
+float tileDelta;
 
 // FRAME
 PShape frame1, frame2, frame3 ;
@@ -91,7 +94,10 @@ void setup() {
   paletteSize = 10 ;
   low = 5;                // smallest tile size
   high = 20;              // largest tile size
-  middleBorder = 25;
+  middleBorder = 25;      // overlap between tiles and center pic
+  pointDelta = 0.01;      // how far voronoi points shift each frame 
+  tileSWeight = 3;        // how thick is each tile's stroke
+  tileDelta = 0.05;       // amount a tile moves each frame
 
 
   // -- Image
@@ -118,6 +124,7 @@ void setup() {
     points[pointGenerated][0] = random((width - inputPhoto.width)/2, width - (width - inputPhoto.width)/2);      //  point i, x;
     points[pointGenerated][1] = random((height - inputPhoto.height)/2, height - (height - inputPhoto.height)/2); //  point i, y
   }
+
 
   // -- Palette Creation
   colorList = new IntDict();      // Dictionary for counting colors that occur
@@ -184,7 +191,7 @@ void setup() {
     }
     tileListVertical[tilesGenerated] = new Tile(xRect, yRect, // add tile
       palette[colorChosen][0], palette[colorChosen][1], palette[colorChosen][2], 
-      low, high);
+      low, high, tileSWeight, tileDelta);
 
     // horizontally placed tiles
     // allowedY  - outside of central image box 
@@ -198,7 +205,7 @@ void setup() {
     }
     tileListHorizontal[tilesGenerated] = new Tile(xRect, yRect, // add tile
       palette[colorChosen][0], palette[colorChosen][1], palette[colorChosen][2], 
-      low, high);
+      low, high, tileSWeight, tileDelta);
   }
 
   // -- FRAME
@@ -286,6 +293,12 @@ void draw() {
     float endY = myEdges[i][3];
     line( startX, startY, endX, endY );
   }
+    // update point position
+  
+  for ( float[] point : points){
+    point[0] += random(-pointDelta, pointDelta);
+    point[1] += random(-pointDelta, pointDelta);
+  }
 
 
   for ( Tile tileShown : tileListVertical) {    // draw and show tiles on left or right
@@ -311,18 +324,18 @@ class Tile {
   float x, y;
   float r, g, b;
   float wh;
-  int sWeight;
+  float sWeight;
   float delta;
 
-  Tile( float x_, float y_, float r_, float g_, float b_, float lowWH_, float highWH_ ) {
+  Tile( float x_, float y_, float r_, float g_, float b_, float lowWH_, float highWH_ , float tileSWeight_ , float tileDelta_ ) {
     x = x_;
     y = y_;
     r = r_;
     g = g_;
     b = b_;
     wh = random( lowWH_, highWH_ );
-    sWeight = 3;
-    delta = 1;
+    sWeight = tileSWeight_;
+    delta = tileDelta_;
   }
 
   void display() {
