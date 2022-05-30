@@ -15,10 +15,9 @@
  Image Processing:  
  https://github.com/milchreis/processing-imageprocessing
  Voronoi: 
- http://leebyron.com/mesh/#:~:text=Voronoi%20Diagrams%20show%20the%20regions%20of%20space%20closest,is%20particulary%20useful%20for%20optimization%20in%20game%20design.
+ http://leebyron.com/mesh/#:~:text=Voronoi%20Diagrams%20show%20the%20regions%20of%20space%20closest,is%20particulary%20useful%20for%20optimization%20in%20game%20design. 
  
- Image from here: https://leceneridipinocchio.blogspot.com/2015/01/il-tango.html
- 
+ Image Rights: Katarina Hoeger, redPlant.JPG 
  */
 
 /* Imports */
@@ -77,7 +76,9 @@ PShape frame1, frame2, frame3 ;
 
 void setup() {
   // -- Canvas Setup
-  size(731, 1000); // !!! ALTER FOR NEW IMAGES!!! - canvas size chosen based off of image dimensions  
+  //size(731, 1000); // !!! ALTER FOR NEW IMAGES!!! - canvas size chosen based off of image dimensions  
+  //size(2704, 3856); // red plant 
+  size(676, 963); // red plant 1/4
   pixelDensity(1); // display well on screens
   //  -- Modes
   imageMode(CENTER);
@@ -102,7 +103,7 @@ void setup() {
 
   // -- Image
   // Load
-  inputPhoto = loadImage("tango.jpg");
+  inputPhoto = loadImage("redPlant.JPG");
   // Resize: For photos taller than wide
   inputPhoto.resize(0, height - 2* boundaryHeight);
   // Process
@@ -278,7 +279,11 @@ void draw() {
   background(edgeColor);
 
   // load central image
-  image(highlight, width/2, height/2);
+  push();
+  translate(width/2, height/2);
+  rotate(radians(270));
+  image(highlight, 0,0);
+  pop();
 
   // Voronoi for tiling of central image
   Voronoi myVoronoi = new Voronoi( points );     // create voronoi
@@ -381,5 +386,5 @@ class Tile {
 }
 
 void mousePressed() {
-  saveFrame("stainedGlassChallenge.jpg");
+  saveFrame("outputs/stainedGlassChallenge_redPlants.jpg");
 }
