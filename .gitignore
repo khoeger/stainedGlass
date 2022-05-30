@@ -10,4 +10,4 @@ application.macosx
 out
 
 
-*.jpg
+private/*
